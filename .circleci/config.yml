@@ -5,6 +5,7 @@ jobs:
       - image: circleci/python:3.8
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: Build all and tag
           command: |
