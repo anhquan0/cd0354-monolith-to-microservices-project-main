@@ -8,6 +8,8 @@ jobs:
       - run:
           name: Push to Docker Hub
           command: |
+            DOCKER_PASSWORD = $DOCKER_PASSWORD
+            DOCKER_USERNAME = $DOCKER_USERNAME
 
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin 
 
