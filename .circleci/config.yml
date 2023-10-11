@@ -6,18 +6,39 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Push to Docker Hub
+          name: Build all and tag
+          command: |
+
+            docker build -t udagram-reverseproxy ./udagram-reverseproxy
+            docker tag udagram-reverseproxy $DOCKER_USERNAME/udagram-reverseproxy
+
+            docker build -t udagram-api-user ./udagram-api-user
+            docker tag udagram-api-user $DOCKER_USERNAME/udagram-api-user
+
+            docker build -t udagram-api-feed ./udagram-api-feed
+            docker tag udagram-api-feed $DOCKER_USERNAME/udagram-api-feed
+
+            docker build -t udagram-frontend ./udagram-frontend
+            docker tag udagram-frontend $DOCKER_USERNAME/udagram-frontend
+      
+      - run: 
+          name: Authentication
           command: |
 
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin 
+      - run: 
+          name: Push to DockerHub
+          command: |
+            docker push $DOCKER_USERNAME/udagram-reverseproxy
 
-            services=("reverseproxy" "backend_user" "backend_feed" "frontend")
+            docker push $DOCKER_USERNAME/udagram-api-user
 
-            for service in "${services[@]}"; do
-                docker-compose -f docker-compose-build.yaml build $service
-                docker-compose push $DOCKER_USERNAME/$service
-            done
+            docker push $DOCKER_USERNAME/udagram-api-feed
 
+            docker push $DOCKER_USERNAME/udagram-frontend
+      - run: 
+          name: Log out
+          command: |
             docker logout
 
 workflows:
