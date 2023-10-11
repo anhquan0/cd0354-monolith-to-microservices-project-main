@@ -13,14 +13,13 @@ jobs:
 
             services=("reverseproxy" "backend_user" "backend_feed" "frontend")
 
-            # for service in "${services[@]}"; do
-            #     docker-compose -f docker-compose-build.yaml build $service
-            #     docker tag $service $DOCKER_USERNAME/$service
-            #     docker push $DOCKER_USERNAME/$service
-            # done
+            for service in "${services[@]}"; do
+                docker-compose -f ../docker-compose-build.yaml build $service
+                docker tag $service $DOCKER_USERNAME/$service
+                docker push $DOCKER_USERNAME/$service
+            done
 
             # docker logout
-            echo "OK"
 
 workflows:
   version: 2
