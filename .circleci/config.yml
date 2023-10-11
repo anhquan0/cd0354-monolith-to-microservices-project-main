@@ -11,7 +11,7 @@ jobs:
 
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin 
 
-            # services=("reverseproxy" "backend_user" "backend_feed" "frontend")
+            services=("reverseproxy" "backend_user" "backend_feed" "frontend")
 
             # for service in "${services[@]}"; do
             #     docker-compose -f docker-compose-build.yaml build $service
