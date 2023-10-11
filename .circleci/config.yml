@@ -13,13 +13,18 @@ jobs:
 
             services=("reverseproxy" "backend_user" "backend_feed" "frontend")
 
-            for service in "${services[@]}"; do
-                docker-compose -f ../docker-compose-build.yaml build $service
-                docker tag $service $DOCKER_USERNAME/$service
-                docker push $DOCKER_USERNAME/$service
-            done
 
-            # docker logout
+            for service in "${services[@]}"; do
+                image_id=$(docker-compose -f docker-compose-build.yaml images -q $service)
+
+                if [ -n "$image_id" ]; then
+                    docker tag $image_id $DOCKER_USERNAME/$service
+                    docker push $DOCKER_USERNAME/$service
+                else
+                    echo "Không tìm thấy image ID cho dự án $service"
+                fi
+            done
+            docker logout
 
 workflows:
   version: 2
