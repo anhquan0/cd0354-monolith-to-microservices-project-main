@@ -10,8 +10,6 @@ jobs:
           name: Build all and tag
           command: |
 
-            sudo systemctl start docker
-
             docker build -t udagram-reverseproxy ./udagram-reverseproxy
             docker tag udagram-reverseproxy $DOCKER_USERNAME/udagram-reverseproxy
 
