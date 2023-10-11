@@ -8,20 +8,19 @@ jobs:
       - run:
           name: Push to Docker Hub
           command: |
-            DOCKER_PASSWORD = $DOCKER_PASSWORD
-            DOCKER_USERNAME = $DOCKER_USERNAME
 
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin 
 
-            services=("reverseproxy" "backend_user" "backend_feed" "frontend")
+            # services=("reverseproxy" "backend_user" "backend_feed" "frontend")
 
-            for service in "${services[@]}"; do
-                docker-compose -f docker-compose-build.yaml build $service
-                docker tag $service $DOCKER_USERNAME/$service
-                docker push $DOCKER_USERNAME/$service
-            done
+            # for service in "${services[@]}"; do
+            #     docker-compose -f docker-compose-build.yaml build $service
+            #     docker tag $service $DOCKER_USERNAME/$service
+            #     docker push $DOCKER_USERNAME/$service
+            # done
 
-            docker logout
+            # docker logout
+            echo "OK"
 
 workflows:
   version: 2
